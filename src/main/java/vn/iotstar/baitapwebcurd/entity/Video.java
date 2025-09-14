@@ -16,4 +16,8 @@ public class Video {
     private int id;
     private String title;
     private String videopath;
+
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private Category category;
 }

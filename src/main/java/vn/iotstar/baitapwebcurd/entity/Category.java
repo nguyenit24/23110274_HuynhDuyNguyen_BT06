@@ -2,6 +2,7 @@ package vn.iotstar.baitapwebcurd.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,4 +18,6 @@ public class Category implements Serializable {
     @Column(name="categoryName",columnDefinition = "NVARCHAR(255)")
     private String categoryName;
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Video> videos = new ArrayList<>();
 }

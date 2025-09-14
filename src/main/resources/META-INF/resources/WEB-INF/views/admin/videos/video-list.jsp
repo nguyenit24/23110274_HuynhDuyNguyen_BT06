@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +18,8 @@
     <tr>
         <th>ID</th>
         <th>Tiêu đề</th>
+
+        <th>Danh mục</th>
         <th>Video</th>
         <th>Hành động</th>
     </tr>
@@ -27,6 +29,7 @@
         <tr>
             <td>${v.id}</td>
             <td>${v.title}</td>
+            <td>${v.category.categoryName}</td>
             <td>
                 <video width="200" controls>
                     <source src="${pageContext.request.contextPath}/uploads/${v.videopath}" type="video/mp4">

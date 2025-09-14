@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import vn.iotstar.baitapwebcurd.entity.Category;
 import vn.iotstar.baitapwebcurd.entity.Video;
+import vn.iotstar.baitapwebcurd.repository.CategoryRepository;
 import vn.iotstar.baitapwebcurd.service.IVideoService;
 import vn.iotstar.baitapwebcurd.service.impl.FileUploadService;
 
@@ -18,6 +20,9 @@ public class VideoController {
     @Autowired
     FileUploadService fileUploadService;
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @GetMapping
     public String list(Model model) {
         model.addAttribute("videos", videoService.findAll());
@@ -27,15 +32,32 @@ public class VideoController {
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("video", new Video());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "/admin/videos/video-form";
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute Video video,
-                       @RequestParam("file") MultipartFile file) {
+                       @RequestParam("file") MultipartFile file,
+                       @RequestParam("categoryId") int categoryId) {
         try {
-            String fileName = fileUploadService.uploadMp4File(file);
-            video.setVideopath(fileName);
+            Category category = categoryRepository.findById(categoryId).orElse(null);
+            video.setCategory(category);
+
+            if (!file.isEmpty()) {
+                // Nếu có file mới thì upload
+                String fileName = fileUploadService.uploadMp4File(file);
+                video.setVideopath(fileName);
+            } else {
+                // Nếu không chọn file mới thì giữ lại file cũ
+                if (video.getId() != 0) { // đang edit
+                    Video oldVideo = videoService.findById(video.getId()).orElse(null);
+                    if (oldVideo != null) {
+                        video.setVideopath(oldVideo.getVideopath());
+                    }
+                }
+            }
+
             videoService.save(video);
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,9 +65,11 @@ public class VideoController {
         return "redirect:/admin/videos";
     }
 
+
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable int id, Model model) {
         model.addAttribute("video", videoService.findById(id).orElse(new Video()));
+        model.addAttribute("categories", categoryRepository.findAll());
         return "/admin/videos/video-form";
     }
 
