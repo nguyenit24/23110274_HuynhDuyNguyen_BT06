@@ -35,6 +35,7 @@ public class VideoController {
                        @RequestParam("file") MultipartFile file) {
         try {
             String fileName = fileUploadService.uploadMp4File(file);
+            video.setVideopath(fileName);
             videoService.save(video);
         } catch (Exception e) {
             e.printStackTrace();

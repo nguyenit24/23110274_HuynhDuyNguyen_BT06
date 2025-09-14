@@ -31,6 +31,9 @@
                 <video width="200" controls>
                     <source src="${pageContext.request.contextPath}/uploads/${v.videopath}" type="video/mp4">
                 </video>
+                <div>
+                    <a href="${pageContext.request.contextPath}/uploads/${v.videopath}">tại đây</a>
+                </div>
             </td>
             <td>
                 <a href="${pageContext.request.contextPath}/admin/videos/edit/${v.id}"
