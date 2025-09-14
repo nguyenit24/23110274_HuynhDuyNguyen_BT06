@@ -2,6 +2,8 @@ package vn.iotstar.baitapwebcurd.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.io.Serializable;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -14,4 +16,5 @@ public class Category implements Serializable {
     private int id;
     @Column(name="categoryName",columnDefinition = "NVARCHAR(255)")
     private String categoryName;
+
 }
