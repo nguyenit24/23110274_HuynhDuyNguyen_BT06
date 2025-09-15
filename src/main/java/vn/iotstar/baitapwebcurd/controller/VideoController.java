@@ -45,12 +45,10 @@ public class VideoController {
             video.setCategory(category);
 
             if (!file.isEmpty()) {
-                // Nếu có file mới thì upload
                 String fileName = fileUploadService.uploadMp4File(file);
                 video.setVideopath(fileName);
             } else {
-                // Nếu không chọn file mới thì giữ lại file cũ
-                if (video.getId() != 0) { // đang edit
+                if (video.getId() != 0) {
                     Video oldVideo = videoService.findById(video.getId()).orElse(null);
                     if (oldVideo != null) {
                         video.setVideopath(oldVideo.getVideopath());

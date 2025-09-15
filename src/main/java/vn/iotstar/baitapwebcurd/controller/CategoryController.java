@@ -42,4 +42,17 @@ public class CategoryController {
         model.addAttribute("message", "Category is deleted!");
         return new ModelAndView("redirect:/admin/categories", model);
     }
+
+    @GetMapping("/videos/{categoryId}")
+    public String viewVideosByCategory(@PathVariable("categoryId") int categoryId, ModelMap model) {
+        Category category = categoryService.findById(categoryId).orElse(null);
+        if (category != null) {
+            model.addAttribute("videos", category.getVideos());
+            return "/admin/videos/video-list";
+        } else {
+            model.addAttribute("errorMessage", "Category not found");
+            return "redirect:/admin/categories";
+        }
+    }
+
 }

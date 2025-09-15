@@ -38,8 +38,8 @@
                             <td scope="row">${category.id}</td>
                             <td>${category.categoryName}</td>
                             <td>
-<%--                                <a href="/admin/categories/view/${category.id}" class="btn btn-outline-info"><i--%>
-<%--                                    class="fa fa-info"></i></a>--%>
+                                <a href="/admin/categories/videos/${category.id}" class="btn btn-outline-info"><i
+                                    class="fa fa-info"></i></a>
                             <a href="<c:url value='/admin/categories/edit/${category.id}'/>" class="btn btn-outline-warning">
                                 <i class="fa fa-edit"></i>
                             </a>
