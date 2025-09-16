@@ -12,4 +12,5 @@ public interface IUserService {
     User findByUserNameAndPassWord(String userName, String passWord);
     <S extends User> S save(S entity);
     void deleteById(Integer id);
+    public User findByEmail(String email);
 }

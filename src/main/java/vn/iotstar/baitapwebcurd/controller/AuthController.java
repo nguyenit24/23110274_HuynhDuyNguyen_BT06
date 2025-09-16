@@ -22,7 +22,6 @@ public class AuthController {
     public String login(@RequestParam String userName, @RequestParam String passWord, ModelMap model) {
         User user = userService.findByUserNameAndPassWord(userName, passWord);
         if (user != null) {
-            // Simple role-based redirect
             if (user.getRoleid() == 3) return "redirect:/admin/home";
             if (user.getRoleid() == 2) return "redirect:/manager/home";
             return "redirect:/user/home";
@@ -45,6 +44,24 @@ public class AuthController {
         user.setRoleid(1);
         userService.save(user);
         model.addAttribute("message", "Registration successful. Please login.");
+        return "auth/login";
+    }
+
+    @GetMapping("/forgetpass")
+    public String forgetPassForm() {
+        return "auth/forgetpass";
+    }
+
+    @PostMapping("/forgetpass")
+    public String forgetPass(@RequestParam String email, @RequestParam String newPassword, ModelMap model) {
+        User user = userService.findByEmail(email);
+        if (user != null) {
+            user.setPassWord(newPassword);
+            userService.save(user);
+            model.addAttribute("message", "Password reset successful. Please login.");
+        } else {
+            model.addAttribute("error", "Email not found");
+        }
         return "auth/login";
     }
 }

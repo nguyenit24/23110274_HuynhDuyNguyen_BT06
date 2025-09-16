@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-@NamedQuery(name = "User.findAll", query = "SELECT c FROM User c")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

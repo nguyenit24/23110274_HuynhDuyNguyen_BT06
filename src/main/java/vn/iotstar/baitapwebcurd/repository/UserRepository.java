@@ -8,4 +8,5 @@ import vn.iotstar.baitapwebcurd.entity.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUserNameAndPassWord(String userName, String passWord);
     User findByUserName(String userName);
+    User findByEmail(String email);
 }
