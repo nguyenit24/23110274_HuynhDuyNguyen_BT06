@@ -14,6 +14,12 @@
 <section class="row">
     <div class="col mt-4">
         <div class="card">
+            <div class="card-header">
+                <form class="d-flex" action="<c:url value='/admin/categories/search'/>" method="post">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
             <div class="card-header">List Category</div>
             <div class="card-body">
                 <!-- Hiển thông báo -->

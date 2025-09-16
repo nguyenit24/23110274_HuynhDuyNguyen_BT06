@@ -9,9 +9,15 @@
 </head>
 <body class="container mt-4">
 
+<form class="d-flex mb-3" action="${pageContext.request.contextPath}/admin/categories/videos/${category.id}" method="get">
+    <input class="form-control me-2" type="search" placeholder="Search by title" aria-label="Search" name="keyword">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
 <h2 class="mb-3">Danh sách Video</h2>
 <a href="${pageContext.request.contextPath}/admin/videos/add"
    class="btn btn-primary mb-3">+ Thêm Video</a>
+
 
 <table class="table table-bordered table-striped text-center align-middle">
     <thead class="table-dark">

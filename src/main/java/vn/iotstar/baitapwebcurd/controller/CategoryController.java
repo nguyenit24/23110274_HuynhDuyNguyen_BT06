@@ -12,7 +12,7 @@ import vn.iotstar.baitapwebcurd.service.impl.VideoService;
 
 import java.util.List;
 @Controller
-@RequestMapping({"/admin/categories", "/manager/categories", "/user/categories"})
+@RequestMapping({"/admin/categories"})
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
@@ -25,13 +25,18 @@ public class CategoryController {
         return "/admin/categories/add";
     }
     @RequestMapping("")
-    public String list(ModelMap model) {
-        User user = (User) model.get("user");
-        if (user == null) {
-            return "redirect:/auth/login";
+    public String list(ModelMap model, @RequestParam(value = "keyword", required = false) String keyword) {
+//        User user = (User) model.get("user");
+//        if (user == null) {
+//            return "redirect:/auth/login";
+////        }
+//        List<Category> list = categoryService.findByUser(user);
+        List<Category> list = categoryService.findAll();
+        if (keyword != null) {
+            list = categoryService.findByCategoryNameContaining(keyword);
         }
-        List<Category> list = categoryService.findByUser(user);
         model.addAttribute("categories", list);
+        model.addAttribute("keyword", keyword);
         return "admin/categories/list";
     }
 
@@ -56,10 +61,18 @@ public class CategoryController {
     }
 
     @GetMapping("/videos/{categoryId}")
-    public String viewVideosByCategory(@PathVariable("categoryId") int categoryId, ModelMap model) {
+    public String viewVideosByCategory(@PathVariable("categoryId") int categoryId,
+            @RequestParam(value = "keyword", required = false) String keyword
+            , ModelMap model) {
         Category category = categoryService.findById(categoryId).orElse(null);
         if (category != null) {
-            model.addAttribute("videos", category.getVideos());
+            if (keyword != null && !keyword.isEmpty()) {
+                model.addAttribute("videos", videoService.findByTitleContainingAndCategory(keyword, category));
+            } else {
+                model.addAttribute("videos", category.getVideos());
+            }
+            model.addAttribute("category", category);
+            model.addAttribute("keyword", keyword);
             return "/admin/videos/video-list";
         } else {
             model.addAttribute("errorMessage", "Category not found");
@@ -72,6 +85,11 @@ public class CategoryController {
         List<Video> videos = videoService.findByCategoryId(categoryId);
         model.addAttribute("videos", videos);
         return "/admin/videos/video-list";
+    }
+
+    @PostMapping("/search")
+    public String searchCategories(@RequestParam("keyword") String keyword) {
+        return "redirect:/admin/categories?keyword=" + keyword;
     }
 
 }

@@ -24,8 +24,12 @@ public class VideoController {
     CategoryRepository categoryRepository;
 
     @GetMapping
-    public String list(Model model) {
+    public String list(Model model,@RequestParam(value = "keyword", required = false) String keyword) {
         model.addAttribute("videos", videoService.findAll());
+        model.addAttribute("keyword", keyword);
+        if (keyword != null) {
+            model.addAttribute("videos", videoService.findByTitleContaining(keyword));
+        }
         return "/admin/videos/video-list";
     }
 

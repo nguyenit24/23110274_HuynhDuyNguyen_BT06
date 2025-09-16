@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vn.iotstar.baitapwebcurd.entity.Category;
 import vn.iotstar.baitapwebcurd.entity.Video;
 import vn.iotstar.baitapwebcurd.repository.VideoRepository;
 import vn.iotstar.baitapwebcurd.service.IVideoService;
@@ -45,5 +46,18 @@ public class VideoService implements IVideoService {
     public List<Video> findByCategoryId(int categoryId) {
         return videoRepository.findByCategoryId(categoryId);
     }
-    
+
+    @Override
+    public List<Video> findByTitleContaining(String title) {
+        return videoRepository.findByTitleContaining(title);
+    }
+
+    @Override
+    public List<Video> findByTitleContainingAndCategoryId(String title, int categoryId) {
+        return videoRepository.findByTitleContainingAndCategoryId(title, categoryId);
+    }
+    @Override
+    public List<Video> findByTitleContainingAndCategory(String keyword, Category category) {
+        return videoRepository.findByTitleContainingAndCategory(keyword, category);
+    }
 }
