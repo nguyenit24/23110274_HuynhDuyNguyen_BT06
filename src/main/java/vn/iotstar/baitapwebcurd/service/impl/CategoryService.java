@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public class CategoryService implements ICategoryService {
+    public List<Category> findByUser(vn.iotstar.baitapwebcurd.entity.User user) {
+        return categoryRepository.findByUser(user);
+    }
     @Autowired
     CategoryRepository categoryRepository;
     @Override

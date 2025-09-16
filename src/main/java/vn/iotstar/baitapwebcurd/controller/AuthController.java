@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.servlet.http.HttpSession;
 import vn.iotstar.baitapwebcurd.entity.User;
 import vn.iotstar.baitapwebcurd.service.IUserService;
 
@@ -19,9 +21,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String userName, @RequestParam String passWord, ModelMap model) {
+    public String login(@RequestParam String userName, @RequestParam String passWord, ModelMap model,
+                        HttpSession session) {
         User user = userService.findByUserNameAndPassWord(userName, passWord);
         if (user != null) {
+            System.out.println(user+ "===================");
+            session.setAttribute("user", user);
             if (user.getRoleid() == 3) return "redirect:/admin/home";
             if (user.getRoleid() == 2) return "redirect:/manager/home";
             return "redirect:/user/home";
@@ -53,10 +58,10 @@ public class AuthController {
     }
 
     @PostMapping("/forgetpass")
-    public String forgetPass(@RequestParam String email, @RequestParam String newPassword, ModelMap model) {
+    public String forgetPass(@RequestParam String email, @RequestParam String newpass, ModelMap model) {
         User user = userService.findByEmail(email);
         if (user != null) {
-            user.setPassWord(newPassword);
+            user.setPassWord(newpass);
             userService.save(user);
             model.addAttribute("message", "Password reset successful. Please login.");
         } else {

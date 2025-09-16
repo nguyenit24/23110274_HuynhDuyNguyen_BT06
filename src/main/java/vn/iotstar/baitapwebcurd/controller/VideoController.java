@@ -12,7 +12,7 @@ import vn.iotstar.baitapwebcurd.service.IVideoService;
 import vn.iotstar.baitapwebcurd.service.impl.FileUploadService;
 
 @Controller
-@RequestMapping("/admin/videos")
+@RequestMapping({"/admin/videos", "/manager/videos", "/user/videos"})
 public class VideoController {
     @Autowired
     private IVideoService videoService;

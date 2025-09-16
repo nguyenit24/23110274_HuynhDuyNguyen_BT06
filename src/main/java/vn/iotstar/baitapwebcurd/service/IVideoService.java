@@ -2,7 +2,6 @@ package vn.iotstar.baitapwebcurd.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import vn.iotstar.baitapwebcurd.entity.Category;
 import vn.iotstar.baitapwebcurd.entity.Video;
 
 import java.util.List;
@@ -19,4 +18,6 @@ public interface IVideoService {
     Optional<Video> findById(Integer integer);
 
     void deleteById(Integer integer);
+    
+    List<Video> findByCategoryId(int categoryId);
 }

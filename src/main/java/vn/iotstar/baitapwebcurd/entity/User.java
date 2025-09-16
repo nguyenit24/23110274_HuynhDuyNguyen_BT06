@@ -1,4 +1,5 @@
 package vn.iotstar.baitapwebcurd.entity;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,4 +23,6 @@ public class User {
     private int roleid;
     @Column(name = "image", nullable = true)
     private String image;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Category> categories;
 }

@@ -5,20 +5,32 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import vn.iotstar.baitapwebcurd.entity.Category;
+import vn.iotstar.baitapwebcurd.entity.User;
+import vn.iotstar.baitapwebcurd.entity.Video;
 import vn.iotstar.baitapwebcurd.service.impl.CategoryService;
+import vn.iotstar.baitapwebcurd.service.impl.VideoService;
+
 import java.util.List;
 @Controller
-@RequestMapping("admin/categories")
+@RequestMapping({"/admin/categories", "/manager/categories", "/user/categories"})
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    VideoService videoService;
+
     @GetMapping("/add")
     public String add() {
         return "/admin/categories/add";
     }
     @RequestMapping("")
     public String list(ModelMap model) {
-        List<Category> list = categoryService.findAll();
+        User user = (User) model.get("user");
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
+        List<Category> list = categoryService.findByUser(user);
         model.addAttribute("categories", list);
         return "admin/categories/list";
     }
@@ -53,6 +65,13 @@ public class CategoryController {
             model.addAttribute("errorMessage", "Category not found");
             return "redirect:/admin/categories";
         }
+    }
+
+    @GetMapping("view/{categoryId}")
+    public String viewCategory(@PathVariable("categoryId") int categoryId, ModelMap model) {
+        List<Video> videos = videoService.findByCategoryId(categoryId);
+        model.addAttribute("videos", videos);
+        return "/admin/videos/video-list";
     }
 
 }

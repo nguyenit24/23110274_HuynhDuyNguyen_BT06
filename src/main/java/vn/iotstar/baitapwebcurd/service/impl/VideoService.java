@@ -40,4 +40,10 @@ public class VideoService implements IVideoService {
     public void deleteById(Integer integer) {
         videoRepository.deleteById(integer);
     }
+
+    @Override
+    public List<Video> findByCategoryId(int categoryId) {
+        return videoRepository.findByCategoryId(categoryId);
+    }
+    
 }
